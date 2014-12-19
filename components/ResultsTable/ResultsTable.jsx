@@ -40,10 +40,15 @@ var ResultsTable = React.createClass({
 					return <th>{head}</th>
 				});
 				//console.log('rows if not affected', rows)
-				var Rows = rows.map(function(row) {
+				console.log(rows)
+				var datacells = rows.map(function(row) {
+					ret = Object.keys(row).map(function(cell) {
+						return <td>{row[cell]}</td>
+					})
 					//console.log(typeof(row))
-					return <tr><td>{row}</td></tr>
+					return ret;
 				});
+				var Rows = <tr>{datacells}</tr>
 			}
 		} else {
 			var Heads = <th></th>
