@@ -18,32 +18,38 @@ var ResultsTable = React.createClass({
 	render: function() {
 		if(this.state.data !== undefined) {
 			var rows = this.state.data.rows
-			var isAffectedRows = (rows[0] === undefined);
-			if(!isAffectedRows) {
-				var heads = Object.keys(rows[0])
-				var Heads = heads.map(function(head) {
-					return <th>{head}</th>
-				});
-				var Rows = rows.map(function(row) {
-					return <tr><td>{row}</td></tr>
-				});
-			} else {
+			var rowsIsArray = (rows[0] === undefined);
+			if(rowsIsArray) {
 				var heads = ["Name", "Value"];
 				var Heads = heads.map(function(head) {
 					return <th>{head}</th>
 				});
+				//console.log('rows if affected', rows)
+				//var Rows = rows.map(function(row) {
+				//	console.log(row)
+				//	//return <tr><td>{row}</td></tr>
+				//});
 				var Rows = [];
 				for (var row in rows) {
+					console.log(row)
 					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
 					Rows.push(rowEl)
 				}
+			} else {
+				var heads = Object.keys(rows[0])
+				var Heads = heads.map(function(head) {
+					return <th>{head}</th>
+				});
+				//console.log('rows if not affected', rows)
+				var Rows = rows.map(function(row) {
+					console.log(typeof(row))
+					return <tr><td>{row}</td></tr>
+				});
 			}
 		} else {
 			var Heads = <th></th>
 			var Rows = <tr><td></td></tr>
 		}
-		//console.log(Heads)
-		//console.log(Rows)
 		var render = (
 			<table>
 				<thead>
