@@ -18,9 +18,8 @@ var ResultsTable = React.createClass({
 	render: function() {
 		if(this.state.data !== undefined) {
 			var rows = this.state.data.rows
-			var rowsIsArray = (rows[0] === undefined);
-			if(rowsIsArray) {
-				var heads = ["Name", "Value"];
+			if(!Array.isArray(rows)) {
+				var heads = ["name", "value"];
 				var Heads = heads.map(function(head) {
 					return <th>{head}</th>
 				});
