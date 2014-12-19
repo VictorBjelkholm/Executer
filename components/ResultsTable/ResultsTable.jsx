@@ -19,10 +19,10 @@ var ResultsTable = React.createClass({
 		if(this.state.data !== undefined) {
 			var rows = this.state.data.rows
 			if(!Array.isArray(rows)) {
-				var heads = ["name", "value"];
-				var Heads = heads.map(function(head) {
-					return <th>{head}</th>
-				});
+					var heads = ["name", "value"];
+					var Heads = heads.map(function(head) {
+						return <th>{head}</th>
+					});
 				//console.log('rows if affected', rows)
 				//var Rows = rows.map(function(row) {
 				//	console.log(row)
@@ -30,7 +30,7 @@ var ResultsTable = React.createClass({
 				//});
 				var Rows = [];
 				for (var row in rows) {
-					console.log(row)
+					//console.log(row)
 					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
 					Rows.push(rowEl)
 				}
@@ -41,7 +41,7 @@ var ResultsTable = React.createClass({
 				});
 				//console.log('rows if not affected', rows)
 				var Rows = rows.map(function(row) {
-					console.log(typeof(row))
+					//console.log(typeof(row))
 					return <tr><td>{row}</td></tr>
 				});
 			}
