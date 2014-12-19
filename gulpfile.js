@@ -29,6 +29,7 @@ var paths = {
 // Our JS task. It will Browserify our code and compile React JSX files.
 gulp.task('js', function() {
   // Browserify/bundle the JS.
+	console.log('\n\n\nBuilt JAVASCRIPT!\t' + new Date())
   browserify(paths.main)
     .transform(reactify)
     .bundle()

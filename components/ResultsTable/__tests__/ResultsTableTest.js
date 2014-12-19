@@ -18,13 +18,24 @@ describe('ResultsTable', function() {
 		var results_table;
 		it('SHOW DATABASES;', function() {
 			results_table = createResultsTable(fixtures.showDatabasesQuery);
-			heads = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
-			rows = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'tr')
-			expect(heads.length).toBe(1)
-			expect(rows.length).toBe(17)
+			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
+			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(headEl.length).toBe(1)
+			expect(dataEl.length).toBe(17)
 		});
 		it('USE', function() {
-			//results_table = createResultsTable(fixtures.useDatabaseQuery);
-		})
+			results_table = createResultsTable(fixtures.useDatabaseQuery);
+			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
+			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(headEl.length).toBe(2)
+			expect(dataEl.length).toBe(16)
+		});
+		it('SHOW TABLES;', function() {
+			results_table = createResultsTable(fixtures.showTablesQuery);
+			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
+			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(headEl.length).toBe(1)
+			expect(dataEl.length).toBe(6)
+		});
 	});
 });

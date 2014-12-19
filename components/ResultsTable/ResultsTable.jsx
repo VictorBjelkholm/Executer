@@ -8,8 +8,8 @@ var ResultsTable = React.createClass({
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
-			console.log('Binding the IPC')
-			console.log(window.ipc)
+			//console.log('Binding the IPC')
+			//console.log(window.ipc)
 			window.ipc.on('execute-query-done', function(results) {
 				this.setState({data: results});
 			}.bind(this));
@@ -18,27 +18,45 @@ var ResultsTable = React.createClass({
 	render: function() {
 		if(this.state.data !== undefined) {
 			var rows = this.state.data.rows
-			var heads = Object.keys(rows[0])
-			var Heads = heads.map(function(head) {
-				return <th>{head}</th>
-			})
-			var Rows = rows.map(function(row) {
-				return <tr><td>{row.Database}</td></tr>
-			})
+			var isAffectedRows = (rows[0] === undefined);
+			if(!isAffectedRows) {
+				var heads = Object.keys(rows[0])
+				var Heads = heads.map(function(head) {
+					return <th>{head}</th>
+				});
+				var Rows = rows.map(function(row) {
+					return <tr><td>{row}</td></tr>
+				});
+			} else {
+				var heads = ["Name", "Value"];
+				var Heads = heads.map(function(head) {
+					return <th>{head}</th>
+				});
+				var Rows = [];
+				for (var row in rows) {
+					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
+					Rows.push(rowEl)
+				}
+			}
 		} else {
 			var Heads = <th></th>
 			var Rows = <tr><td></td></tr>
 		}
-		return (
+		//console.log(Heads)
+		//console.log(Rows)
+		var render = (
 			<table>
 				<thead>
-					{ Heads}
+					<tr>
+						{ Heads }
+					</tr>
 				</thead>
 				<tbody>
 					{ Rows }
 				</tbody>
 			</table>
 		)
+		return render
 	}
 });
 
