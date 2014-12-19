@@ -21,6 +21,8 @@ describe('ResultsTable', function() {
 			results_table = createResultsTable(fixtures.showDatabasesQuery);
 			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
 			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(dataEl[0].getDOMNode().innerHTML).toMatch(/information_schema/)
+			expect(dataEl[1].getDOMNode().innerHTML).toMatch(/build_api/)
 			expect(headEl.length).toBe(1)
 			expect(dataEl.length).toBe(17)
 		});
@@ -28,6 +30,8 @@ describe('ResultsTable', function() {
 			results_table = createResultsTable(fixtures.useDatabaseQuery);
 			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
 			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(dataEl[0].getDOMNode().innerHTML).toMatch(/affectedRows/)
+			expect(dataEl[1].getDOMNode().innerHTML).toMatch(/0/)
 			expect(headEl.length).toBe(2)
 			expect(dataEl.length).toBe(16)
 		});
@@ -35,6 +39,8 @@ describe('ResultsTable', function() {
 			results_table = createResultsTable(fixtures.showTablesQuery);
 			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
 			dataEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			expect(dataEl[0].getDOMNode().innerHTML).toMatch(/configurations/)
+			expect(dataEl[1].getDOMNode().innerHTML).toMatch(/fields/)
 			expect(headEl.length).toBe(1)
 			expect(dataEl.length).toBe(6)
 		});
