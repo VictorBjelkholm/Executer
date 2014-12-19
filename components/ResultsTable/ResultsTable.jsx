@@ -8,8 +8,6 @@ var ResultsTable = React.createClass({
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
-			//console.log('Binding the IPC')
-			//console.log(window.ipc)
 			window.ipc.on('execute-query-done', function(results) {
 				this.setState({data: results});
 			}.bind(this));
@@ -23,14 +21,8 @@ var ResultsTable = React.createClass({
 					var Heads = heads.map(function(head) {
 						return <th>{head}</th>
 					});
-				//console.log('rows if affected', rows)
-				//var Rows = rows.map(function(row) {
-				//	console.log(row)
-				//	//return <tr><td>{row}</td></tr>
-				//});
 				var Rows = [];
 				for (var row in rows) {
-					//console.log(row)
 					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
 					Rows.push(rowEl)
 				}
@@ -39,30 +31,32 @@ var ResultsTable = React.createClass({
 				var Heads = heads.map(function(head) {
 					return <th>{head}</th>
 				});
-				//console.log('rows if not affected', rows)
-				//console.log(rows)
-				var datacells = rows.map(function(row) {
-					console.log('all keys', Object.keys(row))
-					ret = Object.keys(row).map(function(cell) {
-						console.log('key value', row[cell])
-						var value = row[cell];
-						if(typeof row[cell] === 'object') {
-							value = "Object"
-						}
-						if(row[cell] === null) {
-							value = "NULL"
-						}
-						//console.log('one key', cell)
-						//console.log('value of cell', row[cell])
-						ret = (
-						<td>{value}</td>
-							)
-							return  ret
-					})
-					//console.log(typeof(row))
-					return ret;
-				});
-				var Rows = <tr>{datacells}</tr>
+				var Rows = rows.map(function(row) {
+					var values = Object.keys(row).map(function(key) {
+						var value = row[key];
+					  if(typeof row[key] === 'object') {
+					  	value = "Object"
+					  }
+					  if(row[key] === null) {
+					  	value = "NULL"
+					  }
+						return value
+					});
+					elements = values.map(function(value) {
+						return <td>{value}</td>
+					});
+					return <tr>{elements}</tr>
+
+					//var value = row[cell];
+					//ret = (
+					//<td>{value}</td>
+					//	)
+					//	return  ret
+				})
+				//keys = rows.map(function(row) {
+				//	return ret;
+				//});
+				//var Rows = <tr>{datacells}</tr>
 			}
 		} else {
 			var Heads = <th></th>

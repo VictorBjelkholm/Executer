@@ -69,6 +69,9 @@ PRIMARY KEY (ID, MONTH));
 			editor.setTheme("ace/theme/idle_fingers");
 			editor.setKeyboardHandler('ace/keyboard/vim');
 			editor.getSession().setMode("ace/mode/sql");
+	 document.addEventListener("DOMContentLoaded", function(event) {
+			editor.focus()
+  });
 			editor.commands.addCommand({
 				name: 'ExecuteSelectedSQL',
 				bindKey: {win: 'Ctrl-w',  mac: 'Command-w'},

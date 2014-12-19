@@ -41,14 +41,16 @@ describe('ResultsTable', function() {
 		it('SELECT * FROM', function() {
 			results_table = createResultsTable(fixtures.selectAllFromQuery);
 			headEl = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
-			rows = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
-			expect(rows[0].getDOMNode().innerHTML).toMatch(/Object/)
-			expect(rows[1].getDOMNode().innerHTML).toMatch(/NULL/)
-			expect(rows[2].getDOMNode().innerHTML).toMatch(/1/)
-			expect(rows[3].getDOMNode().innerHTML).toMatch(/Hello Title/)
-			expect(rows[4].getDOMNode().innerHTML).toMatch(/EEILQq8Q/)
+			cells = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'td')
+			rows = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'tr')
+			expect(cells[0].getDOMNode().innerHTML).toMatch(/Object/)
+			expect(cells[1].getDOMNode().innerHTML).toMatch(/NULL/)
+			expect(cells[2].getDOMNode().innerHTML).toMatch(/1/)
+			expect(cells[3].getDOMNode().innerHTML).toMatch(/Hello Title/)
+			expect(cells[4].getDOMNode().innerHTML).toMatch(/EEILQq8Q/)
 			expect(headEl.length).toBe(6) // number of names
-			expect(rows.length).toBe(6 * 18) // nr names * rows
+			expect(rows.length).toBe(18 + 1) // rows + header row
+			expect(cells.length).toBe(6 * 18) // nr names * rows
 		});
 	});
 });
