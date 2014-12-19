@@ -1,0 +1,28 @@
+{
+  "name": "your-app",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "brace": "^0.4.0",
+    "jest": "^0.1.37",
+    "jest-cli": "^0.2.1",
+    "mysql": "^2.5.4",
+    "react-tools": "^0.12.2"
+  },
+  "devDependencies": {
+    "browserify": "^7.0.2",
+    "del": "^1.1.0",
+    "gulp": "^3.8.10",
+    "reactify": "^0.17.1",
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/jsx_preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
+    "testPathDirs": [
+      "<rootDir>/components"
+    ]
+  }
+}
