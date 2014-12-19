@@ -14,16 +14,17 @@ function createResultsTable(fixture) {
 }
 
 describe('ResultsTable', function() {
-	var results_table;
-	describe('SHOW query', function() {
-		beforeEach(function() {
+	describe('renders the correct tags', function() {
+		var results_table;
+		it('SHOW DATABASES;', function() {
 			results_table = createResultsTable(fixtures.showDatabasesQuery);
-		});
-		it('renders the correct headers', function() {
 			heads = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'th')
 			rows = TestUtils.scryRenderedDOMComponentsWithTag(results_table, 'tr')
 			expect(heads.length).toBe(1)
 			expect(rows.length).toBe(17)
 		});
-	})
+		it('USE', function() {
+			//results_table = createResultsTable(fixtures.useDatabaseQuery);
+		})
+	});
 });
