@@ -124,7 +124,6 @@ PRIMARY KEY (ID, MONTH));
 				name: 'FocusDataTable',
 				bindKey: {win: 'Alt-]'},
 				exec: function(editor) {
-					console.log('changing to results')
 					window.ipc.send('change-mode', 'results');
 					editor.blur();
 				},
@@ -133,18 +132,15 @@ PRIMARY KEY (ID, MONTH));
 
 			Mousetrap.bind('alt+[', function(e) {
 					window.ipc.send('change-mode', 'query');
-					//console.log('changing to query')
 					editor.focus();
 			});
 
 			Mousetrap.bind('alt+]', function(e) {
 					window.ipc.send('change-mode', 'results');
-					//console.log('changing to results')
 					editor.blur();
 			});
 
 			Mousetrap.bind('ctrl+shift+i', function(e) {
-					//console.log('sending message')
 					window.ipc.send('open-devtools');
 					return false;
 			});
@@ -160,7 +156,6 @@ PRIMARY KEY (ID, MONTH));
 
 			window.ipc.on('execute-query-done', function(results) {
 				window.results = results;
-				console.log(results)
 			});
 
 		</script>

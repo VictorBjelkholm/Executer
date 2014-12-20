@@ -34,7 +34,6 @@ app.on('ready', function() {
 
 	var ipc = require('ipc');
 	ipc.on('execute-query', function(event, arg) {
-		console.log('Query is: ' + arg);
 		connection.query(arg, function(err, rows, fields) {
 			if (err) throw err;
 			event.sender.send('execute-query-done', {
@@ -44,11 +43,9 @@ app.on('ready', function() {
 		});
 	});
 	ipc.on('change-mode', function(event, mode) {
-		console.log('main.js, mode', mode)
 		event.sender.send('changed-mode', mode);
 	});
 	ipc.on('open-devtools', function() {
-					console.log('receiving message')
 		mainWindow.openDevTools();
 	});
 
