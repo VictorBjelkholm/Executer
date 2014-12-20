@@ -8,6 +8,9 @@
 			background-color: #3B3B3B;
 			font-size: 8px;
 		}
+		body {
+			padding-bottom: 25px;
+		}
 		#editor {
 			position: absolute;
 			top: 0;
@@ -18,16 +21,50 @@
 			font-size: 8px;
 		}
 
+		table {
+			width: 100%;
+			height: 100%;
+		}
+
 		th {
 			font-weight: bold;
+			font-size: 10px;
+			background-color: #809451;
 		}
 
 		tr {
-			background-color: #3C3C3C;
+		 transition: background-color 0.1s ease-in-out;
+			background-color: #809451;
+		}
+
+		tr:hover {
+			 background-color: rgba(255,255,255,0.4);
+		}
+
+		td {
+			padding: 5px;
 		}
 
 		#render-results {
 			margin-top: 202px;
+		}
+
+		#render-mode-indicator {
+			position: fixed;
+			height: 20px;
+			left: 0px;
+			right: 0px;
+			bottom: 0px;
+		}
+
+		.render-mode-query {
+			padding: 5px;
+			background-color: #6C7A89;
+		}
+
+		.render-mode-results {
+			padding: 5px;
+			background-color: #87D37C;
 		}
 	</style>
 <script src="libs/ace/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -56,29 +93,60 @@ TEMP_F REAL CHECK (TEMP_F BETWEEN -80 AND 150),
 RAIN_I REAL CHECK (RAIN_I BETWEEN 0 AND 100),
 PRIMARY KEY (ID, MONTH));
 		</div>
-		<div id="render-results">React will be here!</div>
+		<div id="render-results">Results will be here!</div>
+		<div id="render-mode-indicator">ModeIndicator will be here!</div>
     <!--
 		We are using nodejs <script>document.write(process.version)</script>
     and atom-shell <script>document.write(process.versions['atom-shell'])</script>.
 		-->
 		<script src="src/bundle.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libs/jquery/jquery-2.1.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="libs/mousetrap/mousetrap.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			window.ipc = require('ipc');
 			var editor = ace.edit("editor");
 			editor.setTheme("ace/theme/idle_fingers");
 			editor.setKeyboardHandler('ace/keyboard/vim');
 			editor.getSession().setMode("ace/mode/sql");
-	 document.addEventListener("DOMContentLoaded", function(event) {
-			editor.focus()
-  });
+			 document.addEventListener("DOMContentLoaded", function(event) {
+					editor.focus()
+			});
 			editor.commands.addCommand({
 				name: 'ExecuteSelectedSQL',
-				bindKey: {win: 'Ctrl-w',  mac: 'Command-w'},
+				bindKey: {win: 'Alt-w',  mac: 'Alt-w'},
 				exec: function(editor) {
 					window.ipc.send('execute-query', getSelectedQuery());
 				},
 				readOnly: true // false if this command should not apply in readOnly mode
+			});
+
+			editor.commands.addCommand({
+				name: 'FocusDataTable',
+				bindKey: {win: 'Alt-]'},
+				exec: function(editor) {
+					console.log('changing to results')
+					window.ipc.send('change-mode', 'results');
+					editor.blur();
+				},
+				readOnly: true // false if this command should not apply in readOnly mode
+			});
+
+			Mousetrap.bind('alt+[', function(e) {
+					window.ipc.send('change-mode', 'query');
+					//console.log('changing to query')
+					editor.focus();
+			});
+
+			Mousetrap.bind('alt+]', function(e) {
+					window.ipc.send('change-mode', 'results');
+					//console.log('changing to results')
+					editor.blur();
+			});
+
+			Mousetrap.bind('ctrl+shift+i', function(e) {
+					//console.log('sending message')
+					window.ipc.send('open-devtools');
+					return false;
 			});
 
 			function getSelectedQuery() {

@@ -23,7 +23,6 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
-	//mainWindow.openDevTools();
 
 	var mysql      = require('mysql');
 	var connection = mysql.createConnection({
@@ -43,6 +42,14 @@ app.on('ready', function() {
 				fields: fields
 			});
 		});
+	});
+	ipc.on('change-mode', function(event, mode) {
+		console.log('main.js, mode', mode)
+		event.sender.send('changed-mode', mode);
+	});
+	ipc.on('open-devtools', function() {
+					console.log('receiving message')
+		mainWindow.openDevTools();
 	});
 
   // Emitted when the window is closed.

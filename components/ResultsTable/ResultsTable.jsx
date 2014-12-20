@@ -4,7 +4,7 @@ var ResultsTable = React.createClass({
 	getInitialState: function() {
 		return {
 			data: this.props.data
-		}
+		};
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
@@ -14,53 +14,46 @@ var ResultsTable = React.createClass({
 		}.bind(this), 1000);
 	},
 	render: function() {
+		var heads;
+		var Heads;
+		var Rows;
 		if(this.state.data !== undefined) {
-			var rows = this.state.data.rows
+			var rows = this.state.data.rows;
 			if(!Array.isArray(rows)) {
-					var heads = ["name", "value"];
-					var Heads = heads.map(function(head) {
+					heads = ["name", "value"];
+					Heads = heads.map(function(head) {
 						return <th>{head}</th>
 					});
-				var Rows = [];
+				Rows = [];
 				for (var row in rows) {
 					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
-					Rows.push(rowEl)
+					Rows.push(rowEl);
 				}
 			} else {
-				var heads = Object.keys(rows[0])
-				var Heads = heads.map(function(head) {
+				heads = Object.keys(rows[0]);
+				Heads = heads.map(function(head) {
 					return <th>{head}</th>
 				});
-				var Rows = rows.map(function(row) {
+				Rows = rows.map(function(row) {
 					var values = Object.keys(row).map(function(key) {
 						var value = row[key];
 					  if(typeof row[key] === 'object') {
-					  	value = "Object"
+					  	value = "Object";
 					  }
 					  if(row[key] === null) {
-					  	value = "NULL"
+					  	value = "NULL";
 					  }
-						return value
+						return value;
 					});
 					elements = values.map(function(value) {
 						return <td>{value}</td>
 					});
 					return <tr>{elements}</tr>
-
-					//var value = row[cell];
-					//ret = (
-					//<td>{value}</td>
-					//	)
-					//	return  ret
-				})
-				//keys = rows.map(function(row) {
-				//	return ret;
-				//});
-				//var Rows = <tr>{datacells}</tr>
+				});
 			}
 		} else {
-			var Heads = <th></th>
-			var Rows = <tr><td></td></tr>
+			Heads = <th></th>
+			Rows = <tr><td></td></tr>
 		}
 		var render = (
 			<table>
@@ -74,7 +67,7 @@ var ResultsTable = React.createClass({
 				</tbody>
 			</table>
 		)
-		return render
+		return render;
 	}
 });
 
