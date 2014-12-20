@@ -3,6 +3,7 @@
 Executer
 ============
 
+![](imgs/main_window.png)
 
 Fluid UI for browsing and manipulating data and structure in MySQL database.
 
