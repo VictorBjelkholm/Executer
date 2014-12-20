@@ -23,10 +23,10 @@ var TableDataCell = React.createClass({
   //},
   render: function() {
     var className = "";
-    //if(this.props.active) {
-    //  className = "activeCell";
-    //}
-    //var element;
+    if(this.props.active) {
+      className = "activeCell";
+    }
+    var element;
     //if(this.state.editing) {
     //  element = <td><input type="text" value={this.props.data}/></td>
     //} else {

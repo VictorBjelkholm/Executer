@@ -6,6 +6,8 @@ var TableDataCell = require('../TableDataCell/TableDataCell.jsx');
 var ResultsTable = React.createClass({
 	getInitialState: function() {
 		return {
+			activeRow: 0,
+			activeCell: 0,
 			data: this.props.data
 		};
 	},
@@ -41,11 +43,10 @@ var ResultsTable = React.createClass({
 			var head = <TableHeadRow data={this.state.data.rows[0]}/>
 			var rows = this.state.data.rows.map(function(row, index) {
 				var active = false;
-				//if(activeRow === index) {
-				//	active = true;
-				//}
-				//return <TableRow data={row} active={active} activeCell={activeCell}/>
-				return <TableRow data={row} active={active}/>
+				if(activeRow === index) {
+					active = true;
+				}
+				return <TableRow data={row} active={active} activeCell={activeCell}/>
 			});
 			}
 		} else {

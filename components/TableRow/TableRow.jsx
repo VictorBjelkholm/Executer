@@ -9,15 +9,15 @@ var TableRow = React.createClass({
   },
   render: function() {
     var className = "";
-    //if(this.props.active) {
-    //  className = "activeRow";
-    //}
+    if(this.props.active) {
+      className = "activeRow";
+    }
     var cells = Object.keys(this.props.data).map(function(cell, index) {
       var active = false;
-      //if(index === this.props.activeCell && this.props.active) {
-      //  
-      //  active = true;
-      //}
+      if(index === this.props.activeCell && this.props.active) {
+        
+        active = true;
+      }
       var val = this.props.data[cell];
       if(val === undefined || val === null) {
         val = "NULL";
