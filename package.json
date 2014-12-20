@@ -16,6 +16,9 @@
     "reactify": "^0.17.1",
     "vinyl-source-stream": "^1.0.0"
   },
+	"scripts": {
+		"test": "./node_modules/.bin/jest"
+	},
   "jest": {
     "scriptPreprocessor": "<rootDir>/jsx_preprocessor.js",
     "unmockedModulePathPatterns": [
