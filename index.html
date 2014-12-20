@@ -155,6 +155,8 @@ PRIMARY KEY (ID, MONTH));
 			}
 
 			window.ipc.on('execute-query-done', function(results) {
+				console.log('ROWS')
+				console.log(JSON.stringify(results.rows))
 				window.results = results;
 			});
 

@@ -38,7 +38,9 @@ var ResultsTable = React.createClass({
 					var values = Object.keys(row).map(function(key) {
 						var value = row[key];
 					  if(typeof row[key] === 'object') {
-					  	value = "Object";
+							if(row[key] !== null) {
+								value = row[key].toString();
+							}
 					  }
 					  if(row[key] === null) {
 					  	value = "NULL";

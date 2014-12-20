@@ -28,7 +28,8 @@ app.on('ready', function() {
 	var connection = mysql.createConnection({
 		host     : 'localhost',
 		user     : 'root',
-		password : '123'
+		password : '123',
+		dateStrings: true
 	});
 	connection.connect();
 
