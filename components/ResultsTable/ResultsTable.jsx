@@ -1,4 +1,6 @@
 var React = require('react');
+var TableHeadRow = require('../TableHeadRow/TableHeadRow.jsx');
+var TableRow = require('../TableRow/TableRow.jsx');
 
 var ResultsTable = React.createClass({
 	getInitialState: function() {
@@ -14,61 +16,46 @@ var ResultsTable = React.createClass({
 		}.bind(this), 1000);
 	},
 	render: function() {
-		var heads;
-		var Heads;
-		var Rows;
+		var head;
+		var rows;
+		var activeRow = this.state.activeRow;
+		var activeCell = this.state.activeCell;
 		if(this.state.data !== undefined) {
-			var rows = this.state.data.rows;
-			if(!Array.isArray(rows)) {
+			var rowsFromState = this.state.data.rows;
+			if(!Array.isArray(rowsFromState)) {
 					heads = ["name", "value"];
-					Heads = heads.map(function(head) {
+					head = heads.map(function(head) {
 						return <th>{head}</th>
 					});
-				Rows = [];
-				for (var row in rows) {
-					rowEl = <tr><td>{ row }</td><td>{rows[row] }</td></tr>
-					Rows.push(rowEl);
+				rows = [];
+				for (var row in rowsFromState) {
+					rowEl = <tr><td>{ row }</td><td>{rowsFromState[row] }</td></tr>
+					rows.push(rowEl);
 				}
 			} else {
-				heads = Object.keys(rows[0]);
-				Heads = heads.map(function(head) {
-					return <th>{head}</th>
-				});
-				Rows = rows.map(function(row) {
-					var values = Object.keys(row).map(function(key) {
-						var value = row[key];
-					  if(typeof row[key] === 'object') {
-							if(row[key] !== null) {
-								value = row[key].toString();
-							}
-					  }
-					  if(row[key] === null) {
-					  	value = "NULL";
-					  }
-						return value;
-					});
-					elements = values.map(function(value) {
-						return <td>{value}</td>
-					});
-					return <tr>{elements}</tr>
-				});
+				//New code
+			var head = <TableHeadRow data={this.state.data.rows[0]}/>
+			var rows = this.state.data.rows.map(function(row, index) {
+				var active = false;
+				//if(activeRow === index) {
+				//	active = true;
+				//}
+				//return <TableRow data={row} active={active} activeCell={activeCell}/>
+				return <TableRow data={row} active={active}/>
+			});
 			}
 		} else {
-			Heads = <th></th>
-			Rows = <tr><td></td></tr>
+			head = <th></th>
+			rows = <tr></tr>
 		}
-		var render = (
-			<table>
-				<thead>
-					<tr>
-						{ Heads }
-					</tr>
-				</thead>
-				<tbody>
-					{ Rows }
-				</tbody>
-			</table>
-		)
+    return <table>
+      <thead>
+        {head}
+      </thead>
+      <tbody>
+        {rows}
+      </tbody>
+    </table>
 		return render;
 	}
 });
