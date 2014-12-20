@@ -26,6 +26,10 @@
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react"
     ],
+		"modulePathIgnorePatterns": [
+			"/node_modules/",
+			"fixtures"
+		],
     "testPathDirs": [
       "<rootDir>/components"
     ]
