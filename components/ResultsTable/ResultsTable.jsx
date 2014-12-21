@@ -2,8 +2,50 @@ var React = require('react');
 var TableHeadRow = require('../TableHeadRow/TableHeadRow.jsx');
 var TableRow = require('../TableRow/TableRow.jsx');
 var TableDataCell = require('../TableDataCell/TableDataCell.jsx');
+var yieldsK = require('yields-k')(window);
 
 var ResultsTable = React.createClass({
+	incrementActiveRow: function() {
+		if(this.state.activeRow + 1 == this.state.rowsCount) {
+			return false;
+		}
+		this.setState({
+			activeRow: this.state.activeRow + 1
+		});
+		return false;
+	},
+	incrementActiveCell: function() {
+		if(this.state.activeCell + 1 == this.state.cellsCount) {
+			return false;
+		}
+		this.setState({
+			activeCell: this.state.activeCell + 1
+		});
+		return false;
+	},
+	decrementActiveRow: function() {
+		if(this.state.activeRow < 1) {
+			return false;
+		}
+		this.setState({
+			activeRow: this.state.activeRow - 1
+		});
+		return false;
+	},
+	decrementActiveCell: function() {
+		if(this.state.activeCell < 1) {
+			return false;
+		}
+		this.setState({
+			activeCell: this.state.activeCell - 1
+		});
+		return false;
+	},
+	copyCurrentCell: function() {
+		var property = Object.keys(this.state.data.rows[0])[this.state.activeCell];
+		var value = this.state.data.rows[this.state.activeRow][property];
+		window.ipc.send('copy-to-clipboard', value)
+	},
 	getInitialState: function() {
 		return {
 			activeRow: 0,
@@ -17,6 +59,50 @@ var ResultsTable = React.createClass({
 				this.setState({data: results});
 			}.bind(this));
 		}.bind(this), 1000);
+    var keyMap = [
+      {
+        key: ['j', 'down'],
+        action: 'incrementActiveRow'
+      },
+      {
+        key: ['k', 'up'],
+        action: 'decrementActiveRow'
+      },
+      {
+        key: ['h', 'left'],
+        action: 'decrementActiveCell'
+      },
+      {
+        key: ['l', 'right'],
+        action: 'incrementActiveCell'
+      },
+      {
+        key: 'enter',
+        action: 'editCurrentCell'
+      },
+			{
+				key: 'ctrl + c',
+				action: 'copyCurrentCell'
+			}
+    ];
+		yieldsK('f', function() {
+			console.log('pressed F')
+		});
+    keyMap.forEach(function(el) {
+      if(Array.isArray(el.key)) {
+        el.key.forEach(function(keyToMap) {
+          yieldsK(keyToMap, this[el.action]);
+        }.bind(this));
+      } else {
+        yieldsK(el.key, this[el.action]);
+      }
+    }.bind(this));
+		if(this.state.data !== undefined && this.state.data.rows[0] !== undefined){
+			this.setState({
+				rowsCount: this.state.data.rows.length,
+				cellsCount: Object.keys(this.state.data.rows[0]).length
+			});
+		}
 	},
 	render: function() {
 		var head;

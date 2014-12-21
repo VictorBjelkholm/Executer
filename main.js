@@ -49,6 +49,10 @@ app.on('ready', function() {
 	ipc.on('open-devtools', function() {
 		mainWindow.openDevTools();
 	});
+	var clipboard = require('clipboard');
+	ipc.on('copy-to-clipboard', function(event, value) {
+		clipboard.writeText(value);
+	});
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

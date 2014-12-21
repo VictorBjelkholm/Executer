@@ -4,7 +4,9 @@ var TableDataCell = require('../TableDataCell/TableDataCell.jsx');
 var TableRow = React.createClass({
   componentDidUpdate: function() {
     if(this.props.active) {
-      this.getDOMNode().scrollIntoView(false);
+			if(this.getDOMNode().scrollIntoView) {
+				this.getDOMNode().scrollIntoView(false);
+			}
     }
   },
   render: function() {
@@ -15,7 +17,6 @@ var TableRow = React.createClass({
     var cells = Object.keys(this.props.data).map(function(cell, index) {
       var active = false;
       if(index === this.props.activeCell && this.props.active) {
-        
         active = true;
       }
       var val = this.props.data[cell];
