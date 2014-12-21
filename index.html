@@ -6,19 +6,17 @@
 	<style>
 		html, body {
 			background-color: #3B3B3B;
-			font-size: 8px;
 		}
 		body {
 			padding-bottom: 25px;
 		}
 		#editor {
 			position: absolute;
-			top: 0;
+			top: 30px;
 			right: 0;
 			left: 0;
 			height: 200px;
 			border-bottom: 2px solid black;
-			font-size: 8px;
 		}
 
 		table {
@@ -28,7 +26,6 @@
 
 		th {
 			font-weight: bold;
-			font-size: 10px;
 			background-color: #809451;
 		}
 
@@ -55,38 +52,111 @@
 		}
 
 		#render-results {
-			margin-top: 202px;
+			margin-top: 232px;
 		}
 
 		#render-mode-indicator {
 			position: fixed;
-			height: 20px;
+			height: 30px;
 			left: 0px;
 			right: 0px;
 			bottom: 0px;
 		}
 
+		#menu {
+			position: fixed;
+			height: 30px;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+		}
+
+		.menu-item {
+			float: left;
+			display: block;
+			padding: 6px;
+		}
+
+		.menu-right {
+			float: right;
+		}
+
+		.menu-left {
+			float: left;
+		}
+
+		.menu-left .menu-item {
+			margin-right: 5px;
+		}
+
+		.menu-right .menu-item {
+			margin-left: 5px;
+		}
+
+		.menu-center {
+			position: absolute;
+			width: 500px;
+			left: 50%;
+			margin-left: -250px;
+			text-align: center;
+		}
+
+		.menu-center {
+			font-size: 26px;
+		}
+
+		#menu-executer {
+			background-color: #3B3B3B;
+		}
+
+		#menu-relations {
+			background-color: #364836;
+		}
+
+		#menu-connections {
+			background-color: #676E63;
+		}
+
+		#menu-settings {
+			background-color: #6E6663;
+		}
+
+		#menu-exit {
+			background-color: #A17361;
+		}
+
+		.render-mode-query, .render-mode-results {
+				padding: 5px;
+		}
+
 		.render-mode-query {
-			padding: 5px;
 			background-color: #6C7A89;
 		}
 
 		.render-mode-results {
-			padding: 5px;
 			background-color: #87D37C;
 		}
 	</style>
 <script src="libs/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="libs/ace/keybinding-vim.js" type="text/javascript" charset="utf-8"></script>
   <body>
+		<div id="menu">
+			<div class="menu-left">
+				<div class="menu-item" id="menu-executer">[1] Executer</div>
+				<div class="menu-item" id="menu-relations">[2] Relations</div>
+			</div>
+			<div class="menu-center">
+				<div class="title">
+					Executer
+				</div>
+			</div>
+			<div class="menu-right">
+				<div class="menu-item" id="menu-connections">[3] Connections</div>
+				<div class="menu-item" id="menu-settings">[4] Settings</div>
+				<div class="menu-item" id="menu-exit">[5] Exit</div>
+			</div>
+		</div>
 		<div id="editor">
-SHOW DATABASES;
-
-USE build_api;
-
-SHOW TABLES;
-
-SELECT * FROM forms;
 
 INSERT INTO STATION VALUES (13, 'Phoenix', 'AZ', 33, 112);
 INSERT INTO STATION VALUES (44, 'Denver', 'CO', 40, 105);
@@ -112,14 +182,68 @@ PRIMARY KEY (ID, MONTH));
 		<script src="libs/jquery/jquery-2.1.3.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libs/mousetrap/mousetrap.js" type="text/javascript" charset="utf-8"></script>
 		<script>
+			var modesMap = [
+				{
+					key: '1',
+					action: 'query mode!'
+				},
+				{
+					key: '2',
+					action: 'relations mode!'
+				},
+				{
+					key: '3',
+					action: 'connection mode!'
+				},
+				{
+					key: '4',
+					action: 'settings mode!'
+				},
+				{
+					key: '5',
+					action: 'exit mode!'
+				}
+			];
+
+
 			window.ipc = require('ipc');
 			var editor = ace.edit("editor");
 			editor.setTheme("ace/theme/idle_fingers");
-			editor.setKeyboardHandler('ace/keyboard/vim');
-			editor.getSession().setMode("ace/mode/sql");
-			 document.addEventListener("DOMContentLoaded", function(event) {
+
+
+			if(!localStorage.getItem('queryEditorContent')) {
+				editor.setValue('SHOW DATABASES;\nUSE build_api;\nSHOW TABLES;\nSELECT * FROM forms;');
+			} else {
+				editor.setValue(localStorage.getItem('queryEditorContent')); // or session.setValue
+			}
+
+			editor.getSession().on('change', function(e) {
+				var content = editor.getValue(); // or session.getValue
+				localStorage.setItem('queryEditorContent', content);
+			});
+
+			document.addEventListener("DOMContentLoaded", function(event) {
 					editor.focus()
 			});
+
+			editor.setKeyboardHandler('ace/keyboard/vim');
+			editor.getSession().setMode("ace/mode/sql");
+
+
+			modesMap.forEach(function(binding) {
+				Mousetrap.bind('alt+' + binding.key, function() {
+					console.log(binding.action);
+				});
+				editor.commands.addCommand({
+					name: binding.action,
+					bindKey: {win: 'Alt-' + binding.key},
+					exec: function(editor) {
+						console.log(binding.action)
+					},
+					readOnly: true // false if this command should not apply in readOnly mode
+				});
+			});
+
 			editor.commands.addCommand({
 				name: 'ExecuteSelectedSQL',
 				bindKey: {win: 'Alt-w',  mac: 'Alt-w'},
@@ -138,6 +262,7 @@ PRIMARY KEY (ID, MONTH));
 				},
 				readOnly: true // false if this command should not apply in readOnly mode
 			});
+
 
 			Mousetrap.bind('alt+[', function(e) {
 					window.ipc.send('change-mode', 'query');

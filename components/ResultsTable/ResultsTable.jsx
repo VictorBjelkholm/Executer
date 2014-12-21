@@ -44,7 +44,7 @@ var ResultsTable = React.createClass({
 	copyCurrentCell: function() {
 		var property = Object.keys(this.state.data.rows[0])[this.state.activeCell];
 		var value = this.state.data.rows[this.state.activeRow][property];
-		window.ipc.send('copy-to-clipboard', value)
+		window.ipc.send('copy-to-clipboard', value);
 	},
 	getInitialState: function() {
 		return {
@@ -86,7 +86,7 @@ var ResultsTable = React.createClass({
 			}
     ];
 		yieldsK('f', function() {
-			console.log('pressed F')
+			console.log('pressed F');
 		});
     keyMap.forEach(function(el) {
       if(Array.isArray(el.key)) {
@@ -135,9 +135,6 @@ var ResultsTable = React.createClass({
 				return <TableRow data={row} active={active} activeCell={activeCell}/>
 			});
 			}
-		} else {
-			head = <th></th>
-			rows = <tr></tr>
 		}
     return <table>
       <thead>
