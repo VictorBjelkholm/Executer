@@ -5,7 +5,7 @@ var modesMap = require('../constants/keyboard.js');
 
 modesMap.forEach(function(binding) {
 	Mousetrap.bind('alt+' + binding.key, function() {
-		console.log(binding.action);
+		binding.action();
 		return false;
 	});
 });

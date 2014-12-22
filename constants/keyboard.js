@@ -1,7 +1,10 @@
+Events = require('../services/Mediator.js');
 module.exports = [
 	{
 		key: '1',
-		action: 'query mode!'
+		action: function() {
+			Events.emit('change-mode', 'query')
+		}
 	},
 	{
 		key: '2',
@@ -9,7 +12,9 @@ module.exports = [
 	},
 	{
 		key: '3',
-		action: 'connection mode!'
+		action: function() {
+			Events.emit('change-mode', 'connections')
+		}
 	},
 	{
 		key: '4',
