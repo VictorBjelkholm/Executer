@@ -23,7 +23,7 @@ var TableRow = React.createClass({
       if(val === undefined || val === null) {
         val = "NULL";
       }
-      return <TableDataCell data={val} active={active}/>
+      return <TableDataCell key={index} data={val} active={active}/>
     }.bind(this))
     return <tr className={className}>{cells}</tr>
   }

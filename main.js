@@ -43,9 +43,9 @@ app.on('ready', function() {
 			});
 		});
 	});
-	ipc.on('change-mode', function(event, mode) {
-		event.sender.send('changed-mode', mode);
-	});
+	//ipc.on('change-mode', function(event, mode) {
+	//	event.sender.send('changed-mode', mode);
+	//});
 	ipc.on('open-devtools', function() {
 		mainWindow.openDevTools();
 	});

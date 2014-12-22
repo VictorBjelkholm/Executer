@@ -114,11 +114,11 @@ var ResultsTable = React.createClass({
 			if(!Array.isArray(rowsFromState)) {
 					heads = ["name", "value"];
 					head = heads.map(function(head) {
-						return <th>{head}</th>
+						return <th key={head}>{head}</th>
 					});
 				rows = [];
 				for (var row in rowsFromState) {
-					rowEl = <tr>
+					rowEl = <tr key={row}>
 						<TableDataCell data={row}/>
 						<TableDataCell data={rowsFromState[row]}/>
 					</tr>
@@ -132,11 +132,11 @@ var ResultsTable = React.createClass({
 				if(activeRow === index) {
 					active = true;
 				}
-				return <TableRow data={row} active={active} activeCell={activeCell}/>
+				return <TableRow key={index} data={row} active={active} activeCell={activeCell}/>
 			});
 			}
 		}
-    return <table>
+    return <table id="results-table">
       <thead>
         {head}
       </thead>

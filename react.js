@@ -1,6 +1,9 @@
-var ResultsTable = require('./components/ResultsTable/ResultsTable.jsx');
-var ModeIndicator = require('./components/ModeIndicator/ModeIndicator.jsx');
+// Libs
 var React = require('react');
+//Start app
 
-React.render(<ResultsTable/>, document.getElementById('render-results'));
-React.render(<ModeIndicator/>, document.getElementById('render-mode-indicator'));
+//Initialize global keyboard
+require('./services/Keyboard.js');
+
+var QueryScreen = require('./screens/query.jsx');
+React.render(<div id="app"><QueryScreen/></div>, document.getElementById('render-app'));
