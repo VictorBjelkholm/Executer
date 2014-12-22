@@ -30,7 +30,10 @@ var Connection = React.createClass({
 				</div>
 			</div>
 		} else {
-			el = <div className="connection" onClick={this.focus}>{this.props.data.connection_name}</div>
+			el = <div className="connection" onClick={this.focus}>
+				{this.props.data.connection_name}
+				<input className="default-checkbox" type="checkbox" defaultChecked={this.props.data.default_connection}/>
+			</div>
 		}
 		return el
 	}

@@ -49,9 +49,15 @@ describe('Connection', function() {
 		expect(connectionEl.getDOMNode().innerHTML).toMatch(/root/)
 		expect(connectionEl.getDOMNode().innerHTML).toMatch(/123/)
 	});
-	it('show connection name only when big', function() {
-	});
 	it('show default checkbox as checked when default connection', function() {
+		var happyConn = createConnectionComponent(fixtures.happy);
+		var sadConn = createConnectionComponent(fixtures.sad);
+
+		happyCheckbox = TestUtils.findRenderedDOMComponentWithClass(happyConn, 'default-checkbox');
+		sadCheckbox = TestUtils.findRenderedDOMComponentWithClass(sadConn, 'default-checkbox');
+
+		expect(happyCheckbox.getDOMNode().checked).toBe(true);
+		expect(sadCheckbox.getDOMNode().checked).toBe(false);
 	});
 	it('show error message if not valid', function() {
 	});
