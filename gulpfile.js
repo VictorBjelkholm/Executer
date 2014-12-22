@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 
 // Define some paths.
 var paths = {
-  main: ['./react.js'],
+  main: ['./app.js'],
   js: ['*.js', './components/**/*.jsx'],
 };
 
