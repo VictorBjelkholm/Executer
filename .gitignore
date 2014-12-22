@@ -1,4 +1,4 @@
-node_modules/
-!node_modules/yields-k
+node_modules/*
+!*yields-k
 src/
 npm-debug.log
