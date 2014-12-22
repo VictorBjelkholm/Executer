@@ -59,8 +59,27 @@ describe('Connection', function() {
 		expect(happyCheckbox.getDOMNode().checked).toBe(true);
 		expect(sadCheckbox.getDOMNode().checked).toBe(false);
 	});
-	it('show error message if not valid', function() {
+	it('show error message if not valid in both modes', function() {
+		var connection = createConnectionComponent(fixtures.sad);
+		connectionEl = TestUtils.findRenderedDOMComponentWithClass(connection, 'connection');
+		expect(connectionEl.getDOMNode().innerHTML).toMatch(/Connection is not valid/)
+		TestUtils.Simulate.click(connectionEl);
+		expect(connectionEl.getDOMNode().innerHTML).toMatch(/Connection is not valid/)
 	});
-	it('cannot tick as default if not valid', function() {
-	});
+	it('can be ticked if valid', function() {
+		happyConn = fixtures.happy;
+		happyConn.default_connection = false;
+		var connection = createConnectionComponent(happyConn);
+		TestUtils.Simulate.click(connection);
+		checkbox = TestUtils.findRenderedDOMComponentWithClass(connection, 'default-checkbox');
+		TestUtils.Simulate.change(checkbox);
+		expect(checkbox.getDOMNode().checked).toBe(false);
+	})
+	//it('cannot tick as default if not valid', function() {
+	//	var connection = createConnectionComponent(fixtures.sad);
+	//	connectionEl = TestUtils.findRenderedDOMComponentWithClass(connection, 'connection');
+	//	checkbox = TestUtils.findRenderedDOMComponentWithClass(connection, 'default-checkbox');
+	//	TestUtils.Simulate.click(checkbox);
+	//	//expect(checkbox.getDOMNode().checked).toBe(false);
+	//});
 });
