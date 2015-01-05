@@ -3,6 +3,8 @@
 Executer
 ============
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/VictorBjelkholm/Executer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![](imgs/main_window.png)
 
 Fluid UI for browsing and manipulating data and structure in MySQL database.
